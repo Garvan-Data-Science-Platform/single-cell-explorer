@@ -34,7 +34,7 @@ services:
     depends_on:
       - localstack
     ports:
-      - "6000:6000"
+      - "6000:5000"
     environment:
       - PYTHONUNBUFFERED=1
       - CORPORA_LOCAL_DEV=true
@@ -47,9 +47,17 @@ services:
       - RESTART_ON_FAILURE=yes
       - DEV_MODE_COOKIES=1
       - IS_DOCKER_DEV=yes # This skips some unit tests.
+      - API_DOMAIN=localhost:6000
+      - WEB_DOMAIN=localhost:6000
+      - CXG_BUCKET_PATH=corpora-data-dev
+      - BYOD_WORKFLOWS_BUCKET_PATH=corpora-data-dev
+      - DATA_LOCATOR_DOMAIN=localhost:6000
+      - SKIP_ATAC_CACHE=true
     volumes:
       # Mount dirs in a layout suitable for running tests.
       - .:/corpora-data-portal
+      # Mount config to override the one baked in the image
+      - ./hosted/config.yaml:/config.yaml
       # SecretsManager population relies on oauth json
       - ./oauth/users.json:/oauth/users.json
     networks:
