@@ -46,7 +46,8 @@ class DataLocator:
         if self.protocol == "s3":
             if region_name:
                 config_kwargs = dict(region_name=region_name)
-                self.fs = fsspec.filesystem(self.protocol, listings_expiry_time=30, config_kwargs=config_kwargs)
+                # self.fs = fsspec.filesystem(self.protocol, listings_expiry_time=30, config_kwargs=config_kwargs)
+                self.fs = fsspec.filesystem(self.protocol, listings_expiry_time=30, config_kwargs=config_kwargs, client_kwargs=dict(endpoint_url=os.environ.get("BOTO_ENDPOINT_URL")))
             else:
                 self.fs = fsspec.filesystem(self.protocol, listings_expiry_time=30)
         else:
