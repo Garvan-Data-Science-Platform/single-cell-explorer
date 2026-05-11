@@ -68,6 +68,12 @@ server:
       tiledb_ctx:
         sm.tile_cache_size: 60129542144 # 56 GB
         py.init_buffer_bytes: 536870912 # 512MiB
+        vfs.s3.endpoint_override: "localstack:4566"
+        vfs.s3.scheme: "http"
+        vfs.s3.use_virtual_addressing: "false" # false, the bucket name remains part of the URL path: http://localstack:4566/corpora-data-dev/test.cxg
+        vfs.s3.aws_access_key_id: ${AWS_ACCESS_KEY_ID}
+        vfs.s3.aws_secret_access_key: ${AWS_SECRET_ACCESS_KEY}
+
 
   limits:
     column_request_max: 32

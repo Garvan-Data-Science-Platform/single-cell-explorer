@@ -27,16 +27,43 @@ from server.compute import diffexp_cxg
 from server.dataset.cxg_util import pack_selector_from_mask
 from server.dataset.dataset import Dataset
 
+class classproperty:
+    """Descriptor that works like @property but on the class rather than an instance."""
+    def __init__(self, func):
+        self.func = func
+        self.setter_func = None
+
+    def __get__(self, obj, cls):
+        return self.func(cls)
+
+    def setter(self, func):
+        self.setter_func = func
+        return self
+
+    def __set__(self, obj, value):
+        if self.setter_func:
+            self.setter_func(type(obj), value)
 
 class CxgDataset(Dataset):
-    # These defaults are overridden by the config variable: server.adaptor.cxg_adaptor.tiledb_cxt
-    tiledb_ctx = tiledb.Ctx(
-        {
-            "sm.tile_cache_size": 8 * 1024**3,
-            "py.init_buffer_bytes": 512 * 1024**2,
-            "vfs.s3.region": "us-west-2",
-        }
-    )
+    # These defaults are overridden by the config variable: server.adaptor.cxg_adaptor.tiledb_ctx
+    # Do not create tiledb.Ctx here — that would lock in the C++ global context at import time,
+    # before set_tiledb_context() can apply the config.yaml settings (e.g. localstack endpoint).
+    _tiledb_ctx_params = {
+        "sm.tile_cache_size": 8 * 1024**3,
+        "py.init_buffer_bytes": 512 * 1024**2,
+        "vfs.s3.region": "us-west-2",
+    }
+    _tiledb_ctx = None
+
+    @classproperty
+    def tiledb_ctx(cls):
+        if cls._tiledb_ctx is None:
+            cls._tiledb_ctx = tiledb.Ctx(cls._tiledb_ctx_params)
+        return cls._tiledb_ctx
+
+    @tiledb_ctx.setter
+    def tiledb_ctx(cls, value):
+        cls._tiledb_ctx = value
 
     def __init__(self, data_locator, app_config=None):
         super().__init__(data_locator, app_config)
@@ -532,15 +559,9 @@ class CxgDataset(Dataset):
     @staticmethod
     def set_tiledb_context(context_params):
         """Set the tiledb context.  This should be set before any instances of CxgDataset are created"""
-        try:
-            CxgDataset.tiledb_ctx = tiledb.Ctx(context_params)
-
-        except tiledb.libtiledb.TileDBError as e:
-            if e.message == "Global context already initialized!":
-                if tiledb.default_ctx().config().dict() != CxgDataset.tiledb_ctx.config().dict():
-                    raise ConfigurationError("Cannot change tiledb configuration once it is set") from None
-            else:
-                raise ConfigurationError(f"Invalid tiledb context: {str(e)}") from None
+        # Filter out None values so absent optional fields don't override TileDB defaults
+        CxgDataset._tiledb_ctx_params = {k: v for k, v in context_params.items() if v is not None}
+        CxgDataset._tiledb_ctx = None
 
     @staticmethod
     def pre_load_validation(data_locator):

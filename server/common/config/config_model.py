@@ -161,6 +161,11 @@ class TiledbCtx(BaseModel):
     sm_tile_cache_size: int = Field(..., alias="sm.tile_cache_size")
     py_init_buffer_bytes: int = Field(..., alias="py.init_buffer_bytes")
     vfs_s3_region: Optional[str] = Field(default=None, alias="vfs.s3.region")
+    vfs_s3_endpoint_override: Optional[str] = Field(default=None, alias="vfs.s3.endpoint_override")
+    vfs_s3_scheme: Optional[str] = Field(default=None, alias="vfs.s3.scheme")
+    vfs_s3_use_virtual_addressing: Optional[str] = Field(default=None, alias="vfs.s3.use_virtual_addressing")
+    vfs_s3_aws_access_key_id: Optional[str] = Field(default=None, alias="vfs.s3.aws_access_key_id")
+    vfs_s3_aws_secret_access_key: Optional[str] = Field(default=None, alias="vfs.s3.aws_secret_access_key")
 
 
 class CxgAdaptor(BaseModel):
