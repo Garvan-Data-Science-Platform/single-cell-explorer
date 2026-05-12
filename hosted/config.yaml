@@ -37,8 +37,6 @@ server:
       corpora_data_portal:
         base_url: e
         dataroot: s3://${CXG_BUCKET_PATH}
-        # dataroot: /data
-        # dataroot: http://localstack:4566/corpora-data-dev
       byod_workflows:
         base_url: w
         dataroot: s3://${BYOD_WORKFLOWS_BUCKET_PATH}

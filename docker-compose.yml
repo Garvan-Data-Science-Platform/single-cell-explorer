@@ -34,7 +34,7 @@ services:
     depends_on:
       - localstack
     ports:
-      - "5500:5000"
+      - ${PORTS}
     environment:
       - PYTHONUNBUFFERED=1
       - CORPORA_LOCAL_DEV=true
@@ -47,20 +47,17 @@ services:
       - RESTART_ON_FAILURE=yes
       - DEV_MODE_COOKIES=1
       - IS_DOCKER_DEV=yes # This skips some unit tests.
-      - API_DOMAIN=localhost:5500
-      - WEB_DOMAIN=localhost:5500
-      - CXG_BUCKET_PATH=corpora-data-dev
-      - BYOD_WORKFLOWS_BUCKET_PATH=corpora-data-dev
-      - DATA_LOCATOR_DOMAIN=localhost:5500
-      - SKIP_ATAC_CACHE=true
+      - API_DOMAIN=${API_DOMAIN}
+      - WEB_DOMAIN=${WEB_DOMAIN}
+      - CXG_BUCKET_PATH=${CXG_BUCKET_PATH}
+      - BYOD_WORKFLOWS_BUCKET_PATH=${BYOD_WORKFLOWS_BUCKET_PATH}
+      - DATA_LOCATOR_DOMAIN=${DATA_LOCATOR_DOMAIN}
+      - SKIP_ATAC_CACHE=${SKIP_ATAC_CACHE}
     volumes:
       # Mount dirs in a layout suitable for running tests.
       - .:/corpora-data-portal
-      # Mount config to override the one baked in the image
-      - ./hosted/config.yaml:/config.yaml
       # SecretsManager population relies on oauth json
       - ./oauth/users.json:/oauth/users.json
-      - /Users/vupha/Documents/Garvan_Data_Science_Platform/cellxgene_data:/data:ro
     networks:
       corporanet:
         aliases:

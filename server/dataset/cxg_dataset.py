@@ -46,7 +46,7 @@ class classproperty:
 
 class CxgDataset(Dataset):
     # These defaults are overridden by the config variable: server.adaptor.cxg_adaptor.tiledb_ctx
-    # Do not create tiledb.Ctx here — that would lock in the C++ global context at import time,
+    # Do not create tiledb.Ctx here — that would lock in the global context at import time,
     # before set_tiledb_context() can apply the config.yaml settings (e.g. localstack endpoint).
     _tiledb_ctx_params = {
         "sm.tile_cache_size": 8 * 1024**3,
