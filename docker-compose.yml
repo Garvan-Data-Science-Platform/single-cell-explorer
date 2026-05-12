@@ -33,8 +33,10 @@ services:
     restart: always
     depends_on:
       - localstack
+    env_file:
+      - ./.env.explorer
     ports:
-      - ${PORTS}
+      - ${EXP_PORTS}
     environment:
       - PYTHONUNBUFFERED=1
       - CORPORA_LOCAL_DEV=true
@@ -47,12 +49,6 @@ services:
       - RESTART_ON_FAILURE=yes
       - DEV_MODE_COOKIES=1
       - IS_DOCKER_DEV=yes # This skips some unit tests.
-      - API_DOMAIN=${API_DOMAIN}
-      - WEB_DOMAIN=${WEB_DOMAIN}
-      - CXG_BUCKET_PATH=${CXG_BUCKET_PATH}
-      - BYOD_WORKFLOWS_BUCKET_PATH=${BYOD_WORKFLOWS_BUCKET_PATH}
-      - DATA_LOCATOR_DOMAIN=${DATA_LOCATOR_DOMAIN}
-      - SKIP_ATAC_CACHE=${SKIP_ATAC_CACHE}
     volumes:
       # Mount dirs in a layout suitable for running tests.
       - .:/corpora-data-portal

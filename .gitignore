@@ -56,3 +56,4 @@ blob-report/
 playwright/.cache/
 
 .env
+.env.*
