@@ -31,8 +31,6 @@ services:
         - BUILDKIT_INLINE_CACHE=1
         - IMAGE_TAG
     restart: always
-    depends_on:
-      - localstack
     env_file:
       - ./.env.explorer
     ports:
@@ -58,8 +56,13 @@ services:
       corporanet:
         aliases:
           - backend.corporanet.local
+      single-cell-data-portal_corporanet:
+        aliases:
+          - backend.corporanet.local
 networks:
   corporanet:
+  single-cell-data-portal_corporanet:
+    external: true
 volumes:
   database:
   localstack:
