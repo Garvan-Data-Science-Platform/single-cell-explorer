@@ -44,12 +44,18 @@ class DataLocator:
 
         # fsspec.filesystem will throw RuntimeError if the protocol is unsupported
         if self.protocol == "s3":
+            storage_options = {"listings_expiry_time": 30}
+            
             if region_name:
-                config_kwargs = dict(region_name=region_name)
-                # self.fs = fsspec.filesystem(self.protocol, listings_expiry_time=30, config_kwargs=config_kwargs)
-                self.fs = fsspec.filesystem(self.protocol, listings_expiry_time=30, config_kwargs=config_kwargs, client_kwargs=dict(endpoint_url=os.environ.get("BOTO_ENDPOINT_URL")))
-            else:
-                self.fs = fsspec.filesystem(self.protocol, listings_expiry_time=30)
+                storage_options["config_kwargs"] = {"region_name": region_name}
+                
+            # EXPLICIT GATE: Only look for custom endpoints if in local dev mode
+            if os.environ.get("CORPORA_LOCAL_DEV") == "true":
+                endpoint_url = os.environ.get("BOTO_ENDPOINT_URL")
+                if endpoint_url:
+                    storage_options["client_kwargs"] = {"endpoint_url": endpoint_url}
+
+            self.fs = fsspec.filesystem(self.protocol, **storage_options)
         else:
             self.fs = fsspec.filesystem(self.protocol)
 
