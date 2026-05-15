@@ -1,4 +1,5 @@
-FROM ubuntu:22.04
+ARG BASE_IMAGE="533267185808.dkr.ecr.us-west-2.amazonaws.com/docker.io/sci/library/ubuntu:22.04"
+FROM ${BASE_IMAGE}
 
 ENV LC_ALL=C.UTF-8
 ENV LANG=C.UTF-8

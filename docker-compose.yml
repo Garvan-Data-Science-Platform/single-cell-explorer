@@ -30,6 +30,7 @@ services:
       args:
         - BUILDKIT_INLINE_CACHE=1
         - IMAGE_TAG
+        - BASE_IMAGE=${BASE_IMAGE}
     restart: always
     env_file:
       - ./.env.explorer
