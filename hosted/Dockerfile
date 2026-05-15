@@ -5,7 +5,7 @@ ENV LANG=C.UTF-8
 ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update && \
-    apt-get install -y gettext nginx moreutils build-essential libxml2-dev python3-dev python3-pip zlib1g-dev python3-requests python3-aiohttp llvm jq git zip curl && \
+    apt-get install -y gettext nginx moreutils build-essential libxml2-dev python3-dev python3-pip zlib1g-dev python3-requests python3-aiohttp llvm jq git zip curl openssl && \
     curl -sL https://deb.nodesource.com/setup_20.x  | bash - && \
     apt-get -y install nodejs && \
     node -v && \
@@ -13,6 +13,13 @@ RUN apt-get update && \
     apt-get clean
 
 COPY hosted/nginx.conf /etc/nginx/nginx.conf
+
+# Generate self-signed SSL certificate for localhost
+RUN openssl req -x509 -newkey rsa:4096 -nodes \
+    -keyout /etc/ssl/private/nginx-selfsigned.key \
+    -out /etc/ssl/certs/nginx-selfsigned.crt \
+    -days 3650 \
+    -subj "/CN=localhost"
 
 ADD server/requirements.txt .
 RUN python3 -m pip install -r requirements.txt

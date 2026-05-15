@@ -5,7 +5,7 @@ server:
     host: 0.0.0.0
     port: null
     open_browser: false
-    force_https: false
+    force_https: true
     flask_secret_key: "asd"
     generate_cache_control_headers: true
     server_timing_headers: true
@@ -25,8 +25,8 @@ server:
     #   web_base_url = f"https://cellxgene.{env}.single-cell.czi.technology/" # Also used for the multi_dataset index page
     #   data_locator_url = f"https://api.cellxgene.{env}.single-cell.czi.technology/dp/v1"
 
-    api_base_url: http://${API_DOMAIN}/cellxgene/
-    web_base_url: http://${WEB_DOMAIN}/
+    api_base_url: https://${API_DOMAIN}/cellxgene/
+    web_base_url: https://${WEB_DOMAIN}/
     is_vcp_deployment: false
 
   multi_dataset:
@@ -45,10 +45,10 @@ server:
     #   false or null:  this returns a 404 code
     #   true:  loads a test index page, which links to the datasets that are available in the dataroot
     #   string/URL:  redirect to this URL:  flask.redirect(config.multi_dataset__index)
-    index: http://${WEB_DOMAIN}/
+    index: https://${WEB_DOMAIN}/
 
   data_locator:
-    api_base: http://${DATA_LOCATOR_DOMAIN}/dp/v1
+    api_base: https://${DATA_LOCATOR_DOMAIN}/dp/v1
     # s3 region name.
     #   if true, then the s3 location is automatically determined from the datapath or dataroot.
     #   if false/null, then do not set.

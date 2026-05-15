@@ -58,7 +58,7 @@ services:
           - backend.corporanet.local
       single-cell-data-portal_corporanet:
         aliases:
-          - backend.corporanet.local
+          - explorer.corporanet.local
 networks:
   corporanet:
   single-cell-data-portal_corporanet:
