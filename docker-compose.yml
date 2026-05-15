@@ -30,11 +30,14 @@ services:
       args:
         - BUILDKIT_INLINE_CACHE=1
         - IMAGE_TAG
+        - BASE_IMAGE=${BASE_IMAGE}
     restart: always
     depends_on:
       - localstack
+    env_file:
+      - ./.env.explorer
     ports:
-      - "6000:6000"
+      - ${EXP_PORTS}
     environment:
       - PYTHONUNBUFFERED=1
       - CORPORA_LOCAL_DEV=true
