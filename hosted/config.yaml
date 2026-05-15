@@ -45,7 +45,6 @@ server:
     #   false or null:  this returns a 404 code
     #   true:  loads a test index page, which links to the datasets that are available in the dataroot
     #   string/URL:  redirect to this URL:  flask.redirect(config.multi_dataset__index)
-
     index: ${TRANSFER_PROTOCOL}://${WEB_DOMAIN}/
 
   data_locator:
