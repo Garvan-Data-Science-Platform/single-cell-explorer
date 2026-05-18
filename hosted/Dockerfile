@@ -6,7 +6,7 @@ ENV LANG=C.UTF-8
 ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update && \
-    apt-get install -y gettext nginx moreutils build-essential libxml2-dev python3-dev python3-pip zlib1g-dev python3-requests python3-aiohttp llvm jq git zip curl && \
+    apt-get install -y gettext nginx moreutils build-essential libxml2-dev python3-dev python3-pip zlib1g-dev python3-requests python3-aiohttp llvm jq git zip curl openssl && \
     curl -sL https://deb.nodesource.com/setup_20.x  | bash - && \
     apt-get -y install nodejs && \
     node -v && \
@@ -14,6 +14,17 @@ RUN apt-get update && \
     apt-get clean
 
 COPY hosted/nginx.conf /etc/nginx/nginx.conf
+COPY hosted/nginx.ssl.conf* /etc/nginx/nginx.ssl.conf
+ARG LOCALHOST_SSL_CERT=false
+# Generate self-signed SSL certificate only when LOCALHOST_SSL_CERT=true
+RUN if [ "$LOCALHOST_SSL_CERT" = "true" ]; then \
+      mv /etc/nginx/nginx.ssl.conf /etc/nginx/nginx.conf; \
+      openssl req -x509 -newkey rsa:4096 -nodes \
+        -keyout /etc/ssl/private/nginx-selfsigned.key \
+        -out /etc/ssl/certs/nginx-selfsigned.crt \
+        -days 3650 \
+        -subj "/CN=explorer.corporanet.local"; \
+    fi
 
 ADD server/requirements.txt .
 RUN python3 -m pip install -r requirements.txt

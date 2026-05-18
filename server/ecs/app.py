@@ -91,7 +91,7 @@ class WSGIServer(Server):
             + ["data:", HUBSPOT_FORMS_URL],
             "object-src": ["'none'"],
             "base-uri": ["'none'"],
-            "frame-ancestors": ["'none'"],
+            "frame-ancestors": [os.getenv("FRONTEND_URL")],
         }
 
         if not app.debug:

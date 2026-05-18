@@ -31,6 +31,7 @@ services:
         - BUILDKIT_INLINE_CACHE=1
         - IMAGE_TAG
         - BASE_IMAGE=${BASE_IMAGE}
+        - LOCALHOST_SSL_CERT=${LOCALHOST_SSL_CERT}
     restart: always
     env_file:
       - ./.env.explorer
@@ -59,7 +60,7 @@ services:
           - backend.corporanet.local
       single-cell-data-portal_corporanet:
         aliases:
-          - explorer.corporanet
+          - explorer.corporanet.local
 networks:
   corporanet:
   single-cell-data-portal_corporanet:
