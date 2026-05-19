@@ -60,3 +60,4 @@ playwright/.cache/
 !.env.*example
 
 hosted/nginx.ssl.conf
+!hosted/nginx.ssl.conf.example
