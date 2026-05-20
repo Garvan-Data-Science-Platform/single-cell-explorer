@@ -91,8 +91,11 @@ class WSGIServer(Server):
             + ["data:", HUBSPOT_FORMS_URL],
             "object-src": ["'none'"],
             "base-uri": ["'none'"],
-            "frame-ancestors": [os.getenv("FRONTEND_URL")],
+            "frame-ancestors": ["'none'"],
         }
+
+        if os.getenv("FRONTEND_URL"):
+            csp["frame-ancestors"] = os.getenv("FRONTEND_URL")
 
         if not app.debug:
             csp["upgrade-insecure-requests"] = ""
