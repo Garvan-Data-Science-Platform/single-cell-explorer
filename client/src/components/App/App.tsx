@@ -116,7 +116,7 @@ class App extends React.Component<StateProps & { dispatch: AppDispatch }> {
                   datasetMetadataError === null ||
                   isCellGuideCxg) &&
                   process.env.DEPLOYMENT_TYPE !== "vcp-hosted" && 
-                  process.env.USE_FOR_PORTAL === "false" && (
+                  process.env.USE_FOR_PORTAL !== "true" && (
                     <NavBar tosURL={tosURL} privacyURL={privacyURL} />
                   )}
                 {loading || error ? null : (
