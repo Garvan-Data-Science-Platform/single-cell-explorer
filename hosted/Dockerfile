@@ -34,6 +34,8 @@ ADD common.mk common.mk
 ADD environment.default.json environment.default.json
 ADD client/ client/
 ENV DEPLOYMENT_TYPE=hosted
+ARG USE_FOR_PORTAL=false
+ENV USE_FOR_PORTAL=${USE_FOR_PORTAL}
 RUN make build-client
 
 ADD server/ server/
