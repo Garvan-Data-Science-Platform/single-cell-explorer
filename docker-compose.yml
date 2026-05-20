@@ -32,6 +32,7 @@ services:
         - IMAGE_TAG
         - BASE_IMAGE=${BASE_IMAGE}
         - LOCALHOST_SSL_CERT=${LOCALHOST_SSL_CERT}
+        - USE_FOR_PORTAL=${USE_FOR_PORTAL}
     restart: always
     env_file:
       - ./.env.explorer

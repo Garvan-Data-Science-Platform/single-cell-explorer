@@ -20,6 +20,7 @@ const obsoleteHTMLTemplate = rawObsoleteHTMLTemplate.replace(/"/g, "'");
 
 const deploymentStage = process.env.DEPLOYMENT_STAGE || "test";
 const deploymentType = process.env.DEPLOYMENT_TYPE || "hosted";
+const useForPortal = process.env.USE_FOR_PORTAL || "false";
 
 module.exports = {
   entry: [
@@ -104,6 +105,7 @@ module.exports = {
           : "cellxgene.staging.single-cell.czi.technology"
       ),
       "process.env.DEPLOYMENT_TYPE": JSON.stringify(deploymentType),
+      "process.env.USE_FOR_PORTAL": JSON.stringify(useForPortal),
     }),
     new CopyPlugin({
       patterns: [
