@@ -14,7 +14,7 @@ RUN apt-get update && \
     apt-get clean
 
 COPY hosted/nginx.conf /etc/nginx/nginx.conf
-COPY hosted/nginx.ssl.conf* /etc/nginx/nginx.ssl.conf
+COPY hosted/nginx.ssl.conf* /etc/nginx/
 ARG LOCALHOST_SSL_CERT=false
 # Generate self-signed SSL certificate only when LOCALHOST_SSL_CERT=true
 RUN if [ "$LOCALHOST_SSL_CERT" = "true" ]; then \
