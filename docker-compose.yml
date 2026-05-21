@@ -59,13 +59,14 @@ services:
       corporanet:
         aliases:
           - backend.corporanet.local
-      single-cell-data-portal_corporanet:
+      portal_corporanet:
         aliases:
           - explorer.corporanet.local
 networks:
   corporanet:
-  single-cell-data-portal_corporanet:
-    external: true
+  portal_corporanet:
+    name: ${PORTAL_CORPORANET_NETWORK:-portal_corporanet}
+    external: ${PORTAL_CORPORANET_EXTERNAL:-false}
 volumes:
   database:
   localstack:

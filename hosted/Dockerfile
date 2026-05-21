@@ -23,7 +23,8 @@ RUN if [ "$LOCALHOST_SSL_CERT" = "true" ]; then \
         -keyout /etc/ssl/private/nginx-selfsigned.key \
         -out /etc/ssl/certs/nginx-selfsigned.crt \
         -days 3650 \
-        -subj "/CN=explorer.corporanet.local"; \
+        -subj "/CN=explorer.corporanet.local" \
+        -addext "subjectAltName=DNS:explorer.corporanet.local"; \
     fi
 
 ADD server/requirements.txt .
