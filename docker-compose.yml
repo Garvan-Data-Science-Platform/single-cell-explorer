@@ -50,8 +50,7 @@ services:
       - RESTART_ON_FAILURE=yes
       - DEV_MODE_COOKIES=1
       - IS_DOCKER_DEV=yes # This skips some unit tests.
-      - DEFAULT_API_BASE_URL=${PROXY_TRANSFER_PROTOCOL}://${PROXY_API_DOMAIN}/cellxgene/
-      - API_BASE_URL=${PROXY_API_BASE_URL:-DEFAULT_API_BASE_URL}
+      - API_BASE_URL=${PROXY_API_BASE_URL:-${PROXY_TRANSFER_PROTOCOL}://${PROXY_API_DOMAIN}/cellxgene/}
     volumes:
       # Mount dirs in a layout suitable for running tests.
       - .:/corpora-data-portal
