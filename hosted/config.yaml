@@ -26,7 +26,7 @@ server:
     #   data_locator_url = f"https://api.cellxgene.{env}.single-cell.czi.technology/dp/v1"
 
     # ${TRANSFER_PROTOCOL}://${API_DOMAIN}/cellxgene/: Flask registers all API routes under a specific prefix
-    # null: Flask registers routes at /, so urls (e.g., /e/<dataset>/...) match correctly
+    # null: Flask registers routes at /, so urls match correctly
     # api_base_url: ${TRANSFER_PROTOCOL}://${API_DOMAIN}/cellxgene/
     api_base_url: ${API_BASE_URL}
     web_base_url: ${TRANSFER_PROTOCOL}://${WEB_DOMAIN}/
