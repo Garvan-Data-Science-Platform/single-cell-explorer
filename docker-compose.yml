@@ -31,9 +31,9 @@ services:
         - BUILDKIT_INLINE_CACHE=1
         - IMAGE_TAG
         - BASE_IMAGE=${BASE_IMAGE}
+        - LOCALHOST_SSL_CERT=${LOCALHOST_SSL_CERT}
+        - USE_FOR_PORTAL=${USE_FOR_PORTAL}
     restart: always
-    depends_on:
-      - localstack
     env_file:
       - ./.env.explorer
     ports:
@@ -59,8 +59,14 @@ services:
       corporanet:
         aliases:
           - backend.corporanet.local
+      portal_corporanet:
+        aliases:
+          - explorer.corporanet.local
 networks:
   corporanet:
+  portal_corporanet:
+    name: ${PORTAL_CORPORANET_NETWORK:-portal_corporanet}
+    external: ${PORTAL_CORPORANET_EXTERNAL:-false}
 volumes:
   database:
   localstack:

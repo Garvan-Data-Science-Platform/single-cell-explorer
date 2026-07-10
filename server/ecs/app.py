@@ -94,6 +94,9 @@ class WSGIServer(Server):
             "frame-ancestors": ["'none'"],
         }
 
+        if os.getenv("FRONTEND_URL"):
+            csp["frame-ancestors"] = os.getenv("FRONTEND_URL")
+
         if not app.debug:
             csp["upgrade-insecure-requests"] = ""
 
